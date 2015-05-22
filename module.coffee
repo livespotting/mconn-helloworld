@@ -10,11 +10,11 @@ class HelloWorld extends MConnModule
     
   constructor: ->
     super("HelloWorld")
-    
-  init: (options, moduleRouter) ->
+
+  init: (options, moduleRouter, folder) ->
     Q = require("q")
     deferred = Q.defer()
-    super(options, moduleRouter).then =>
+    super(options, moduleRouter, folder).then =>  # <- call super(options).then -> first
       moduleRouter.get @createModuleRoute("custom"), (req, res) =>
         res.render(@getTemplatePath("custom"),
           modulename: @name
