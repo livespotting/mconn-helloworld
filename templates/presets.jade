@@ -1,0 +1,14 @@
+extends layout
+
+block right
+    .bs-table
+        table.table.table-hover
+            thead
+                tr
+                    th App ID
+                    th Options
+            tbody
+                each preset in presets
+                    tr
+                        td #{preset.appId}
+                        td !{JSON.stringify(preset.options, null, 4)}

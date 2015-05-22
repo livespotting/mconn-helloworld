@@ -1,0 +1,18 @@
+extends layout
+
+block right
+    .bs-table
+        table.table.table-hover
+            thead
+                tr
+                    th App ID
+                    th Task ID
+                    th Task Status
+                    th.text-right Runtime
+            tbody(ng-controller="HelloWorldCtrl")
+                tr(ng-repeat="item in queue")
+                    td {{item.marathonData.appId}}
+                    td {{item.marathonData.taskId}}
+                    td {{item.marathonData.taskStatus}}
+                        span(ng-if="item.cleanup", style="color: #00c698;font-style:italic") &nbsp;cleanup
+                    td.text-right {{item.runtime}} Sec.

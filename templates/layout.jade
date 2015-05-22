@@ -1,0 +1,37 @@
+extends /layout
+
+block extraheader
+    link(href='/HelloWorld/style.css', rel='stylesheet')
+    script(src="/HelloWorld/gui.js", type="text/javascript")
+block content
+
+    .row
+        .col-sm-12
+            ul.nav.navbar-nav.navbar-module
+                if activeSubmenu == "main"
+                    li.active
+                        a(href='main', role='button') Inventory
+                else
+                    li
+                        a(href='main', role='button') Inventory
+                if activeSubmenu == "queue"
+                    li.active
+                        a(href='queue', role='button') Job Queue
+                else
+                    li
+                        a(href='queue', role='button') Job Queue
+                if activeSubmenu == "presets"
+                    li.active
+                        a(href='presets', role='button') Presets
+                else
+                    li
+                        a(href='presets', role='button') Presets
+                if activeSubmenu == "custom"
+                    li.active
+                        a(href='custom', role='button') Custom
+                else
+                    li
+                        a(href='custom', role='button') Custom
+
+        .col-sm-12(ng-controller="HelloWorldCtrl")
+            block right

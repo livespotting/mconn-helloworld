@@ -1,0 +1,18 @@
+extends layout
+
+block right
+    .bs-table
+        table.table.table-hover
+            thead
+                tr
+                    th App ID
+                    th Task ID
+                    th.text-right Message
+                    th.text-right Timestamp
+
+            tbody(ng-controller="HelloWorldCtrl")
+                tr(ng-repeat="item in inventory")
+                    td {{item.data.jobData.data.fromMarathon.appId}}
+                    td {{item.path}}
+                    td.text-right {{item.data.customData}}
+                    td.text-right {{item.data.jobData.data.fromMarathon.timestamp}}

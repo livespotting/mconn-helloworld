@@ -1,0 +1,25 @@
+{
+  "name": "mconn_helloworld",
+  "version": "0.0.5",
+  "description": "MConn Module-Example",
+  "author": "Livespotting Media GmbH",
+  "contributors": [
+    {
+      "name": "Christoph Johannsdotter",
+      "email": "c.johannsdotter@livespottingmedia.com"
+    },
+    {
+      "name": "Jan Stabenow",
+      "email": "j.stabenow@livespottingmedia.com"
+    }
+  ],
+  "license": "Apache 2.0",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/livespotting/mconn-helloworld.git"
+  },
+  "main": "./module.js",
+  "dependencies": {
+    "q": "*"
+  }
+}
