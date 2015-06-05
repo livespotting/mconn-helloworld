@@ -2,9 +2,8 @@ extends /layout
 
 block extraheader
     link(href='/HelloWorld/style.css', rel='stylesheet')
-    script(src="/HelloWorld/gui.js", type="text/javascript")
-block content
 
+block content
     .row
         .col-sm-12
             ul.nav.navbar-nav.navbar-module
@@ -35,3 +34,5 @@ block content
 
         .col-sm-12(ng-controller="HelloWorldCtrl")
             block right
+block extrascripts
+    script(src="/HelloWorld/gui.js", type="text/javascript")

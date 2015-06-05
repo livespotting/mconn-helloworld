@@ -2,5 +2,5 @@ extends layout
 
 block right
     h4 I like ...
-    .bar(ng-repeat="item in helloworlddata")
+    .bar(ng-repeat="item in helloworlddata", class="ng-cloak")
         span {{item}}

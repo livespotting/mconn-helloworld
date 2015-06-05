@@ -1,13 +1,13 @@
 # MConn-HelloWorld 0.0.5
 # We will release the required documentations with the upcoming version 0.1.0.
 
-MConnModule = require(require("path").join(process.env.MCONN_PATH, "bin/application/classes/MConnModule"))
+Module = require(require("path").join(process.env.MCONN_PATH, "bin/classes/Module"))
 Q = require("q")
 
-class HelloWorld extends MConnModule
+class HelloWorld extends Module
 
   timeout: 60000
-    
+
   constructor: ->
     super("HelloWorld")
 
@@ -15,6 +15,7 @@ class HelloWorld extends MConnModule
     Q = require("q")
     deferred = Q.defer()
     super(options, moduleRouter, folder).then =>
+
       moduleRouter.get @createModuleRoute("custom"), (req, res) =>
         res.render(@getTemplatePath("custom"),
           modulename: @name
@@ -28,7 +29,7 @@ class HelloWorld extends MConnModule
           if io
             fruitsSnippet = fruits.slice(0,i)
             i = (i + 1) % 4
-            io.sockets.emit("updateHelloWorld", fruitsSnippet)
+            io.of("/HelloWorld").emit("updateHelloWorld", fruitsSnippet)
       , 1500
 
       moduleRouter.get @createModuleRoute("inventory"), (req, res) =>
@@ -39,7 +40,8 @@ class HelloWorld extends MConnModule
         )
       @getWebsocketHandler().then (io) =>
         if io
-          io.on("connection", (socket)=>
+          nsp = io.of("/HelloWorld")
+          nsp.on("connection", (socket)=>
             @updateInventoryOnGui(socket)
           )
 
@@ -48,27 +50,27 @@ class HelloWorld extends MConnModule
     deferred.promise
 
   worker: (job, callback) ->
-    @logger.logInfo("Starting worker for job " + job.data.fromMarathon.taskId + "_" + job.data.fromMarathon.taskStatus + " state: " + job.state)
+    @logger.info("Starting worker for job " + job.data.fromMarathonEvent.taskId + "_" + job.data.fromMarathonEvent.taskStatus + " state: " + job.state)
     super(job, callback )
     .then (allreadyDoneState) =>
       if (allreadyDoneState)
         @allreadyDone(job, callback)
       else
-        MConnModule.loadPresetForModule(job.data.fromMarathon.appId, @name)
+        Module.loadPresetForModule(job.data.fromMarathonEvent.appId, @name)
         .then (modulePreset) =>
           unless modulePreset
-            @noPreset(job, callback, "Preset could not be found for app #{job.data.fromMarathon.appId}")
+            @noPreset(job, callback, "Preset could not be found for app #{job.data.fromMarathonEvent.appId}")
           else
             @doWork(job, modulePreset, callback)
         .catch (error) =>
-          @logger.logError("Error starting worker for #{@name} Module: " + error.toString() + ", " + error.stack)
+          @logger.error("Error starting worker for #{@name} Module: " + error.toString() + ", " + error.stack)
           @failed(job, callback)
 
   doWork: (job, modulePreset, callback)->
     @logger.debug("INFO", "Processing job")
     Q.delay(1000).then =>
-      path = job.data.fromMarathon.taskId
-      switch job.data.fromMarathon.taskStatus
+      path = job.data.fromMarathonEvent.taskId
+      switch job.data.fromMarathonEvent.taskStatus
         when "TASK_RUNNING" then action = "add"
         when "TASK_FAILED", "TASK_KILLED", "TASK_FINISHED" then action = "remove"
       if action is "add"
@@ -78,8 +80,8 @@ class HelloWorld extends MConnModule
         promise = @removeFromZKInventory(path)
       promise
       .then =>
-        if action is "add" then @logger.logInfo(modulePreset.options.actions.add + " " + job.data.fromMarathon.taskId)
-        if action is "remove" then @logger.logInfo(modulePreset.options.actions.remove + " " + job.data.fromMarathon.taskId)
+        if action is "add" then @logger.info(modulePreset.options.actions.add + " " + job.data.fromMarathonEvent.taskId)
+        if action is "remove" then @logger.info(modulePreset.options.actions.remove + " " + job.data.fromMarathonEvent.taskId)
         @success(job, callback)
         @updateInventoryOnGui()
       .catch (error) =>
@@ -89,16 +91,16 @@ class HelloWorld extends MConnModule
     @logger.debug("INFO", "Starting inventory cleanup")
     deferred = Q.defer()
     for m in result.missing
-      m.data.fromMarathon.taskStatus = "TASK_RUNNING"
+      m.data.fromMarathonEvent.taskStatus = "TASK_RUNNING"
       @addJob(m, =>
-        @logger.logInfo("Cleanup job " + m.data.fromMarathon.taskId + " successfully added")
+        @logger.info("Cleanup job " + m.data.fromMarathonEvent.taskId + " successfully added")
       )
     for o in result.wrong
-      o.data.fromMarathon.taskStatus = "TASK_KILLED"
+      o.data.fromMarathonEvent.taskStatus = "TASK_KILLED"
       @addJob(o, =>
-        @logger.logInfo("Cleanup job " + o.data.fromMarathon.taskId + " successfully removed")
+        @logger.info("Cleanup job " + o.data.fromMarathonEvent.taskId + " successfully removed")
       )
-    @logger.logInfo("Cleanup initiated, added " + (result.wrong.length + result.missing.length) + " jobs")
+    @logger.info("Cleanup initiated, added " + (result.wrong.length + result.missing.length) + " jobs")
     deferred.resolve()
     deferred.promise
 

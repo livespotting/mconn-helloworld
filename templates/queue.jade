@@ -9,7 +9,7 @@ block right
                     th Task ID
                     th Task Status
                     th.text-right Runtime
-            tbody(ng-controller="HelloWorldCtrl")
+            tbody(ng-controller="HelloWorldCtrl", class="ng-cloak")
                 tr(ng-repeat="item in queue")
                     td {{item.marathonData.appId}}
                     td {{item.marathonData.taskId}}

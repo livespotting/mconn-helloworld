@@ -10,9 +10,9 @@ block right
                     th.text-right Message
                     th.text-right Timestamp
 
-            tbody(ng-controller="HelloWorldCtrl")
-                tr(ng-repeat="item in inventory")
-                    td {{item.data.jobData.data.fromMarathon.appId}}
+            tbody(ng-controller="HelloWorldCtrl", class="ng-cloak")
+                tr(ng-repeat="item in inventory | filter:query | orderBy: 'path' ")
+                    td {{item.data.jobData.data.fromMarathonEvent.appId}}
                     td {{item.path}}
                     td.text-right {{item.data.customData}}
-                    td.text-right {{item.data.jobData.data.fromMarathon.timestamp}}
+                    td.text-right {{item.data.jobData.data.fromMarathonEvent.timestamp}}
