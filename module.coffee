@@ -20,7 +20,6 @@ class HelloWorld extends Module
         res.render(@getTemplatePath("custom"),
           modulename: @name
           activeSubmenu: "custom"
-          mconnenv: req.mconnenv
         )
       fruits = ["Bananas", "Apple", "Blackberries", "Cranberries"]
       i = 0

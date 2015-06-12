@@ -10,7 +10,7 @@ block right
                     th.text-right Message
                     th.text-right Timestamp
 
-            tbody(ng-controller="HelloWorldCtrl", class="ng-cloak")
+            tbody
                 tr(ng-repeat="item in inventory | filter:query | orderBy: 'path' ")
                     td {{item.data.jobData.data.fromMarathonEvent.appId}}
                     td {{item.path}}

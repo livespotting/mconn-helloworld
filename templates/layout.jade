@@ -1,38 +1,19 @@
-extends /layout
+.row
+    .col-sm-12
+        ul.nav.navbar-nav.navbar-module(ng-controller="NavCtrl")
+            li(ng-class="classActive('/modules/HelloWorld/main')")
+                a(href='/#/modules/HelloWorld/main', role='button') Inventory
+            li(ng-class="classActive('/modules/HelloWorld/queue')")
+                a(href='/#/modules/HelloWorld/queue', role='button') Job Queue
+            li(ng-class="classActive('/modules/HelloWorld/presets')")
+                a(href='/#/modules/HelloWorld/presets', role='button') Presets
+        //
+            if activeSubmenu == "custom"
+                li.active
+                    a(href='/#/modules/HelloWorld/custom', role='button') Custom
+            else
+                li
+                    a(href='/#/modules/HelloWorld/custom', role='button') Custom
 
-block extraheader
-    link(href='/HelloWorld/style.css', rel='stylesheet')
-
-block content
-    .row
-        .col-sm-12
-            ul.nav.navbar-nav.navbar-module
-                if activeSubmenu == "main"
-                    li.active
-                        a(href='main', role='button') Inventory
-                else
-                    li
-                        a(href='main', role='button') Inventory
-                if activeSubmenu == "queue"
-                    li.active
-                        a(href='queue', role='button') Job Queue
-                else
-                    li
-                        a(href='queue', role='button') Job Queue
-                if activeSubmenu == "presets"
-                    li.active
-                        a(href='presets', role='button') Presets
-                else
-                    li
-                        a(href='presets', role='button') Presets
-                if activeSubmenu == "custom"
-                    li.active
-                        a(href='custom', role='button') Custom
-                else
-                    li
-                        a(href='custom', role='button') Custom
-
-        .col-sm-12(ng-controller="HelloWorldCtrl")
-            block right
-block extrascripts
-    script(src="/HelloWorld/gui.js", type="text/javascript")
+    .col-sm-12
+        block right

@@ -9,8 +9,7 @@ block right
                     th Options
                     th Status
             tbody
-                each preset in presets
-                    tr
-                        td #{preset.appId}
-                        td !{JSON.stringify(preset.options, null, 4)}
-                        td #{preset.status}
+                tr(ng-repeat="preset in presets")
+                    td {{preset.appId}}
+                    td {{preset.options}}
+                    td {{preset.status}}
