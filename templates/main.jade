@@ -8,11 +8,11 @@ block right
                     th App ID
                     th Task ID
                     th.text-right Message
-                    th.text-right Timestamp
+                    th.text-right Updated
 
             tbody
                 tr(ng-repeat="item in inventory | filter:query | orderBy: 'path' ")
-                    td {{item.data.jobData.data.fromMarathonEvent.appId}}
+                    td {{item.data.taskData.appId}}
                     td {{item.path}}
                     td.text-right {{item.data.customData}}
-                    td.text-right {{item.data.jobData.data.fromMarathonEvent.timestamp}}
+                    td.text-right {{item.data.taskData.timestamp | date:'yyyy-MM-dd, HH:mm:ss'}}

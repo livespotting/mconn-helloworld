@@ -7,9 +7,9 @@ block right
                 tr
                     th App ID
                     th Options
-                    th Status
+                    th.text-right Status
             tbody
                 tr(ng-repeat="preset in presets")
                     td {{preset.appId}}
                     td {{preset.options}}
-                    td {{preset.status}}
+                    td.text-right {{preset.status}}

@@ -4,16 +4,9 @@
             li(ng-class="classActive('/modules/HelloWorld/main')")
                 a(href='/#/modules/HelloWorld/main', role='button') Inventory
             li(ng-class="classActive('/modules/HelloWorld/queue')")
-                a(href='/#/modules/HelloWorld/queue', role='button') Job Queue
+                a(href='/#/modules/HelloWorld/queue', role='button') Queue
             li(ng-class="classActive('/modules/HelloWorld/presets')")
                 a(href='/#/modules/HelloWorld/presets', role='button') Presets
-        //
-            if activeSubmenu == "custom"
-                li.active
-                    a(href='/#/modules/HelloWorld/custom', role='button') Custom
-            else
-                li
-                    a(href='/#/modules/HelloWorld/custom', role='button') Custom
 
     .col-sm-12
         block right

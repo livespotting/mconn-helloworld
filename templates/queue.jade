@@ -11,8 +11,8 @@ block right
                     th.text-right Runtime
             tbody(ng-controller="HelloWorldCtrl", class="ng-cloak")
                 tr(ng-repeat="item in queue")
-                    td {{item.marathonData.appId}}
-                    td {{item.marathonData.taskId}}
-                    td {{item.marathonData.taskStatus}}
+                    td {{item.data.appId}}
+                    td {{item.data.taskId}}
+                    td {{item.data.taskStatus}}
                         span(ng-if="item.cleanup", style="color: #00c698;font-style:italic") &nbsp;cleanup
                     td.text-right {{item.runtime}} Sec.
