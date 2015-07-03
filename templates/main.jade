@@ -11,8 +11,8 @@ block right
                     th.text-right Updated
 
             tbody
-                tr(ng-repeat="item in inventory | filter:query | orderBy: 'path' ")
+                tr(ng-repeat="item in inventory | filter:query | orderBy: 'data.taskData.taskId' ")
                     td {{item.data.taskData.appId}}
-                    td {{item.path}}
+                    td {{item.data.taskData.taskId}}
                     td.text-right {{item.data.customData}}
                     td.text-right {{item.data.taskData.timestamp | date:'yyyy-MM-dd, HH:mm:ss'}}
