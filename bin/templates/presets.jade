@@ -1,0 +1,46 @@
+extends layout
+
+block right
+    #presets(ng-controller="HelloWorldPresetCtrl")
+      .nav-module
+        button.btn.btn-module(type='button', data-toggle='modal', data-target='#preset-add', ng-click="add()") + New Preset
+      .bs-table
+          table.table.table-hover
+              thead
+                  tr
+                      th App ID
+                      th Options
+                      th.text-right Status
+              tbody
+                  tr(ng-repeat='preset in presets', ng-click='edit(preset)', data-toggle='modal', data-target='#preset-add', style='cursor:pointer;')
+                      td {{preset.appId}}
+                      td {{preset.options}}
+                      td.text-right {{preset.status}}
+      #preset-add.modal.fade(tabindex='-1', role='dialog', aria-labelledby='preset-add', aria-hidden='true')
+        .modal-dialog.modal-md
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal')
+                span(aria-hidden='true') &times;
+                span.sr-only Close
+              h4#preset-add.modal-title(ng-show="mode == 'add'") New Preset
+              h4#preset-add.modal-title(ng-show="mode == 'edit'") Edit Preset {{formdata.appId}}
+            .modal-body
+              form(ng-submit="submit()")
+                .form-group
+                  label(for='appId') AppId
+                  input#appId.form-control(type='text',ng-model="formdata.appId", placeholder='AppId')
+                .form-group
+                  label(for='add') Add
+                  input#add.form-control(type='text',ng-model="formdata.add", placeholder='Add')
+                .form-group
+                  label(for='remove') Remove
+                  input#remove.form-control(type='text',ng-model="formdata.remove", placeholder='Remove')
+                .checkbox
+                  label
+                    input(type='checkbox', ng-model='formdata.enabled')
+                    | enabled
+                .btn-group-modal(class="text-right")
+                  button(type="submit", class="btn btn-modal-success", ng-show="mode == 'add'") + Create
+                  button(type="submit", class="btn btn-modal-success", ng-show="mode == 'edit'") Change
+                  button(type="button", ng-show="mode == 'edit'", class="btn btn-modal-danger", ng-click="delete()") Delete

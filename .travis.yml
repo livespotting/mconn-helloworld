@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - "0.12.7"
+before_script:
+  - wget http://apache.openmirror.de/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz
+  - tar xf zookeeper-3.4.6.tar.gz
+  - cp zookeeper-3.4.6/conf/zoo_sample.cfg zookeeper-3.4.6/conf/zoo.cfg
+  - chmod +x zookeeper-3.4.6/bin/zkServer.sh
+  - mkdir -p /tmp/zookeeper
+  - npm install -g coffee-script coffeelint grunt-cli bower mocha chai
+  - git clone https://github.com/livespotting/mconn.git && cd mconn
+  - npm install
+  - grunt build
+  - cd ..
+script:
+  - export MCONN_TEST_PATH=/home/travis/build/livespotting/mconn-helloworld/mconn/
+  - export MCONN_TEST_MODULE_PATH=/home/travis/build/livespotting/
+  - export MCONN_TEST_MODULE_START=mconn-helloworld
+  - export MCONN_TEST_MODULE_CLASSNAME=HelloWorld
+  - zookeeper-3.4.6/bin/zkServer.sh start
+  - grunt test-silent
