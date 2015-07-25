@@ -45,7 +45,7 @@ class HelloWorld extends Module
     deferred.promise
 
   on_TASK_RUNNING: (taskData, modulePreset, callback) ->
-    delay = if process.env.MCONN_MOULE_HELLOWORLD_DELAY then process.env.MCONN_MOULE_HELLOWORLD_DELAY else 250
+    delay = if process.env.MCONN_MODULE_HELLOWORLD_DELAY then process.env.MCONN_MODULE_HELLOWORLD_DELAY else 250
     Q.delay(delay)
     .then =>
       path = taskData.getData().taskId
@@ -59,7 +59,7 @@ class HelloWorld extends Module
       @failed(taskData, callback, error)
 
   on_TASK_FAILED: (taskData, modulePreset, callback) ->
-    delay = if process.env.MCONN_MOULE_HELLOWORLD_DELAY then process.env.MCONN_MOULE_HELLOWORLD_DELAY else 250
+    delay = if process.env.MCONN_MODULE_HELLOWORLD_DELAY then process.env.MCONN_MODULE_HELLOWORLD_DELAY else 250
     Q.delay(delay)
     .then =>
       path = taskData.getData().taskId
@@ -72,7 +72,7 @@ class HelloWorld extends Module
       @failed(taskData, callback, error)
 
   on_UNDEFINED_STATUS: (taskData, modulePreset, callback) ->
-    delay = if process.env.MCONN_MOULE_HELLOWORLD_DELAY then process.env.MCONN_MOULE_HELLOWORLD_DELAY else 0
+    delay = if process.env.MCONN_MODULE_HELLOWORLD_DELAY then process.env.MCONN_MODULE_HELLOWORLD_DELAY else 0
     Q.delay(delay)
     .then =>
       @logger.info("\"" + taskData.getData().taskStatus + "\" is an undefined taskStatus and the task
